@@ -1,13 +1,4 @@
 """
-Report and compare dataset statistics across processed datasets.
-
-Fills Reviewer 1 Comment 5 ("report interactions, nodes, attack categories,
-timestamps, class distribution and train/validation/test counts separately for
-each dataset") and Reviewer 8 minor 6 (graph construction described with equal
-care for both datasets). It also surfaces the structural difference that
-explains why the two datasets behave differently: interactions per node and
-bipartite graph density.
-
 USAGE
     python scripts/dataset_stats.py \
         --data "Warden=data/processed_cat" \

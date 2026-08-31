@@ -1,0 +1,6 @@
+{
+  "0": "Anomaly.Traffic",
+  "1": "Availability.DDoS",
+  "2": "Availability.DoS",
+  "3": "Recon.Scanning"
+}

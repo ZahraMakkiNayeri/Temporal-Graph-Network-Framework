@@ -1,32 +1,3 @@
-"""
-Experiment 11 — temporal causality and order invariance.
-
-Addresses Reviewer 1 #3, Reviewer 6 #8 and Reviewer 8 #5/#9, all of which point
-out that the manuscript's Figure 21 shows |Delta| reaching ~0.2 while the text
-claims Delta_max < 1e-2, and that the same value (5.43e-3) was reported for two
-different quantities.
-
-PART A — causality. For a set of test interactions at time t, predictions are
-computed twice from an identical memory state:
-    full graph  : the neighbour finder is built over ALL interactions
-    past-only   : the neighbour finder is built only over interactions with
-                  timestamp < t
-A strictly causal model must give identical predictions, because temporal
-neighbour sampling cuts at each edge's own timestamp. Reports Delta_max, mean
-Delta, the full distribution, and the Pearson correlation.
-
-PART B — order invariance. The same evaluation is repeated with the batch order
-permuted (respecting chronological validity), and per-edge prediction variance
-across repetitions is reported. This is a DIFFERENT quantity from Part A and is
-reported separately, which is precisely the confusion the reviewers flagged.
-
-USAGE
-    python scripts/causality_experiment.py --processed-dir data/processed \
-        --model saved_models/<file>.pth        # optional; untrained also valid
-Outputs: artifacts/causality_stats.json, artifacts/causality_delta.npy,
-         artifacts/order_variance.npy and two figures.
-"""
-
 import argparse
 import json
 import os

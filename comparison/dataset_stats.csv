@@ -1,0 +1,24 @@
+,Warden,NF-UNSW-NB15-v2 (enriched),NF-UNSW-NB15-v2 (natural)
+interactions,68363,150000,150000
+nodes,20155,74,76
+sources,4118,36,38
+destinations,16037,38,38
+observed pairs,24137,245,268
+possible pairs,66040366,1368,1444
+bipartite density,0.00036548858617773257,0.179093567251462,0.18559556786703602
+interactions per node (mean),6.783726122550235,4054.054054054054,3947.3684210526317
+interactions per node (median),1.0,83.0,168.5
+categories,4,10,10
+edge feature dim,13,17,17
+node feature dim,9,9,9
+timestamp span,604088.0,149999.0,149999.0
+train interactions,20169,73428,67194
+validation interactions,10249,22500,22500
+test interactions,10255,22500,22500
+new-node validation,1795,8114,4
+new-node test,6436,2887,7624
+nodes absent from training,9821,7,8
+nodes in new-node test split,2198,10,20
+category channel in features,True,True,True
+balanced,False,False,False
+timeline,real timestamps from the source data,"SYNTHETIC: row order of the released file, 1 s per row; the ","SYNTHETIC: row order of the released file, 1 s per row; the "

@@ -1,0 +1,18 @@
+% Main comparison table. Cells are mean +/- std across seeds.
+% * marks a baseline from which BiTA differs significantly
+% (wilcoxon, Holm-corrected across baselines per metric).
+\begin{tabular}{lrccccc}
+\toprule
+Method & Seeds & AUC & AP & AUC$_{\mathrm{hist}}$ & MRR & Macro-F1 \\
+\midrule
+\textbf{BiTA} & 25 & 0.9468 $\pm$ 0.0265 & 0.9459 $\pm$ 0.0224 & 0.8733 $\pm$ 0.0304 & 0.4688 $\pm$ 0.1058 & 0.8672 $\pm$ 0.0773 \\
+\midrule
+TGN-Last & 25 & 0.9461 $\pm$ 0.0139 & 0.9433 $\pm$ 0.0133 & 0.8551 $\pm$ 0.0254 & 0.4986 $\pm$ 0.0730 & 0.8755 $\pm$ 0.0792 \\
+TGN-Mean & 10 & 0.9336 $\pm$ 0.0357 & 0.9252 $\pm$ 0.0386 & 0.8395 $\pm$ 0.0467 & 0.4411 $\pm$ 0.1607 & 0.8806 $\pm$ 0.0699 \\
+TGN-Attention & 25 & 0.9371 $\pm$ 0.0207 & 0.9309 $\pm$ 0.0245 & 0.8577 $\pm$ 0.0342 & 0.4276 $\pm$ 0.1140 & 0.8924 $\pm$ 0.0733 \\
+BiGRU & 25 & 0.9490 $\pm$ 0.0134 & 0.9478 $\pm$ 0.0139 & 0.8588 $\pm$ 0.0296 & 0.5048 $\pm$ 0.0853 & 0.8884 $\pm$ 0.0638 \\
+GRU & 10 & 0.9516 $\pm$ 0.0107 & 0.9462 $\pm$ 0.0187 & 0.8735 $\pm$ 0.0328 & 0.4760 $\pm$ 0.1131 & 0.7972 $\pm$ 0.1526 \\
+DyRep & 10 & 0.9469 $\pm$ 0.0101 & 0.9441 $\pm$ 0.0083 & 0.8923 $\pm$ 0.0088 & 0.4927 $\pm$ 0.2373 & 0.9269 $\pm$ 0.0521 \\
+EdgeBank & 1 & 0.7703 & 0.7679 & 0.5839 & 0.5110 & -- \\
+\bottomrule
+\end{tabular}

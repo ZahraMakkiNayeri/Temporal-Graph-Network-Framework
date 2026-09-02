@@ -209,7 +209,7 @@ additional edge-feature dimensions.
 
 ```bibtex
 @article{bita2026,
-  title  = {BiTA: Bidirectional GRU--Transformer Aggregation in a Temporal
+  title  = {BiTA: Bidirectional GRU-Transformer Aggregation in a Temporal
             Graph Network Framework for Alert Prediction in Computer Networks},
   author = {Zahra Makki Nayeri, Mohsen Rezvani},
   year   = {2026},

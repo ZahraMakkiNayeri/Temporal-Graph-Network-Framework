@@ -1,0 +1,10 @@
+module,trainable_parameters
+time_encoder,18
+memory,0
+message_aggregator,1231912
+message_function,2920
+memory_updater,3015
+embedding_module,2196
+affinity_score,181
+category_predictor,40
+TOTAL,1240264

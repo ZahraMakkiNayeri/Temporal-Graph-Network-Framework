@@ -54,17 +54,17 @@ Neither dataset is redistributed here.
 
 ```bash
 # Warden, with and without the historical-category channel
-python -m preprocessing.preprocess_data --raw-dir data \
-       --out-dir data/processed_cat --include-category-features --emit-table2
-python -m preprocessing.preprocess_data --raw-dir data --out-dir data/processed
+python -m preprocessing.preprocess_data -raw-dir data \
+       -out-dir data/processed_cat -include-category-features -emit-table2
+python -m preprocessing.preprocess_data -raw-dir data -out-dir data/processed
 
 # NF-UNSW-NB15-v2, attack-enriched and natural class proportions
-python -m preprocessing.preprocess_unsw --raw data/NF-UNSW-NB15-v2.csv \
-       --out-dir data/unsw_cat --n-interactions 150000 --keep-all-attacks \
-       --include-category-features
-python -m preprocessing.preprocess_unsw --raw data/NF-UNSW-NB15-v2.csv \
-       --out-dir data/unsw_nat_cat --n-interactions 150000 \
-       --include-category-features
+python -m preprocessing.preprocess_unsw -raw data/NF-UNSW-NB15-v2.csv \
+       -out-dir data/unsw_cat -n-interactions 150000 -keep-all-attacks \
+       -include-category-features
+python -m preprocessing.preprocess_unsw -raw data/NF-UNSW-NB15-v2.csv \
+       -out-dir data/unsw_nat_cat -n-interactions 150000 \
+       -include-category-features
 ```
 
 Each output directory contains `new_df.csv`, `edge_features.npy`,
@@ -78,18 +78,18 @@ without on Warden, 17 and 13 on NF-UNSW-NB15-v2.
 
 ```bash
 # proposed configuration
-python run_train.py --processed-dir data/processed_cat \
-       --n-runs 25 --link-ranking-candidates 100
+python run_train.py -processed-dir data/processed_cat \
+       -n-runs 25 -link-ranking-candidates 100
 
 # any other aggregator: last, mean, gru, bigru, bitransformer,
 # gru_transformer, bitransformer_temporal, relative_transformer,
 # stacked_bitransformer, tcn
-python run_train.py --processed-dir data/processed_cat --aggregator bigru \
-       --n-runs 25 --link-ranking-candidates 100
+python run_train.py -processed-dir data/processed_cat -aggregator bigru \
+       -n-runs 25 -link-ranking-candidates 100
 
 # NF-UNSW-NB15-v2 (10 categories; 38 distinct destinations)
-python run_train.py --processed-dir data/unsw_cat --num-categories 10 \
-       --memory-dim 9 --n-runs 10 --link-ranking-candidates 37
+python run_train.py -processed-dir data/unsw_cat -num-categories 10 \
+       --memory-dim 9 -n-runs 10 -link-ranking-candidates 37
 ```
 
 Results are written incrementally to `test_metrics_multi_seed.csv`, one row per
@@ -97,7 +97,7 @@ seed, so an interrupted run resumes from the first unfinished seed. Confusion
 matrices, ROC and PR curve data, and sequence-length bins are written to
 `artifacts/`.
 
-`reproduce.sh` runs the full pipeline; `bash reproduce.sh --dry-run` prints the
+`reproduce.sh` runs the full pipeline; `bash reproduce.sh -dry-run` prints the
 commands without executing them.
 
 ---
@@ -105,22 +105,22 @@ commands without executing them.
 ## Baselines
 
 ```bash
-python -m baselines.edgebank   --processed-dir data/processed_cat \
-       --link-ranking-candidates 100 --out-dir runs/edgebank
-python -m baselines.classical  --processed-dir data/processed_cat \
-       --out-dir runs/classical            # RF, linear SVM, logistic regression
-python -m baselines.static_gnn --processed-dir data/processed_cat \
-       --model gcn --n-runs 5 --out-dir runs/gcn        # also: graphsage
+python -m baselines.edgebank   -processed-dir data/processed_cat \
+       -link-ranking-candidates 100 -out-dir runs/edgebank
+python -m baselines.classical  -processed-dir data/processed_cat \
+       -out-dir runs/classical            # RF, linear SVM, logistic regression
+python -m baselines.static_gnn -processed-dir data/processed_cat \
+       -model gcn -n-runs 5 -out-dir runs/gcn        # also: graphsage
 ```
 
 DyRep and JODIE are configurations of the same backbone rather than separate
 implementations:
 
 ```bash
-python run_train.py --processed-dir data/processed_cat --dyrep true \
-       --memory-updater rnn --use-source-embedding-in-message true
-python run_train.py --processed-dir data/processed_cat \
-       --embedding-module time --memory-updater rnn --aggregator last
+python run_train.py -processed-dir data/processed_cat -dyrep true \
+       -memory-updater rnn -use-source-embedding-in-message true
+python run_train.py -processed-dir data/processed_cat \
+       -embedding-module time -memory-updater rnn -aggregator last
 ```
 
 ---
@@ -129,24 +129,24 @@ python run_train.py --processed-dir data/processed_cat \
 
 ```bash
 # comparison tables and figures
-python scripts/collect_results.py --out-dir comparison --run "BiTA=." --run "TGN-Last=runs/tgn_last"
-python scripts/make_comparison_table.py --proposed "BiTA=." --baseline "TGN-Last=runs/tgn_last" --out comparison/table_main
-python scripts/make_table4.py --processed-dir data/processed_cat --run "BiTA=."
+python scripts/collect_results.py -out-dir comparison --run "BiTA=." -run "TGN-Last=runs/tgn_last"
+python scripts/make_comparison_table.py -proposed "BiTA=." -baseline "TGN-Last=runs/tgn_last" -out comparison/table_main
+python scripts/make_table4.py -processed-dir data/processed_cat -run "BiTA=."
 
 # statistics
-python scripts/paired_tests.py --a "TGN-Last=runs/tgn_last" --b "BiTA=." --all-metrics
-python scripts/significance_table.py --in "TGN-Last=comparison/vs_tgn_last.csv"
-python scripts/seed_sensitivity.py --pair "BiTA vs BiGRU=.:runs/agg_bigru"
+python scripts/paired_tests.py -a "TGN-Last=runs/tgn_last" -b "BiTA=." -all-metrics
+python scripts/significance_table.py -in "TGN-Last=comparison/vs_tgn_last.csv"
+python scripts/seed_sensitivity.py -pair "BiTA vs BiGRU=.:runs/agg_bigru"
 
 # verification
-python scripts/causality_experiment.py --processed-dir data/processed_cat --n-probe-edges 200
-python scripts/self_leak_check.py      --processed-dir data/processed_cat
+python scripts/causality_experiment.py -processed-dir data/processed_cat -n-probe-edges 200
+python scripts/self_leak_check.py      -processed-dir data/processed_cat
 python leakage_probe.py data/11March_e.csv
 
 # cost and attribution
-python scripts/scalability_benchmark.py --processed-dir data/processed_cat --model saved_models
-python scripts/interpretability.py --processed-dir data/processed_cat --model saved_models
-python scripts/dataset_stats.py --data "Warden=data/processed_cat" --data "NF-UNSW=data/unsw_cat"
+python scripts/scalability_benchmark.py -processed-dir data/processed_cat -model saved_models
+python scripts/interpretability.py -processed-dir data/processed_cat -model saved_models
+python scripts/dataset_stats.py -data "Warden=data/processed_cat" -data "NF-UNSW=data/unsw_cat"
 ```
 
 `RELEASE.md` maps each of these to the table or figure it produces.

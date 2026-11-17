@@ -1,4 +1,4 @@
-module,trainable_parameters
+module,trainable_parameters_nocat
 time_encoder,18
 memory,0
 message_aggregator,1229860

@@ -60,11 +60,11 @@ seeds of the same run directory. Every table states its seed count.
 | `runs/agg_gru` | GRU only | 10 | `... --aggregator gru --n-runs 10` |
 | `runs/agg_gru_transformer` | GRU + Transformer | 10 | `... --aggregator gru_transformer --n-runs 10` |
 | `runs/cat_dyrep` | DyRep-style | 10 | `... --dyrep true --memory-updater rnn --use-source-embedding-in-message true --n-runs 10` |
-| `runs/cat_jodie` ⚠ | JODIE-style | 10 | `... --embedding-module time --memory-updater rnn --aggregator last --n-runs 10` |
+| `runs/cat_jodie` | JODIE-style | 10 | `... --embedding-module time --memory-updater rnn --aggregator last --n-runs 10` |
 | `runs/edgebank` | EdgeBank | 1 | `python -m baselines.edgebank --processed-dir data/processed_cat --out-dir runs/edgebank` |
 | `runs/classical` | Random Forest, linear SVM, logistic regression | 10 | `python -m baselines.classical --processed-dir data/processed_cat --seed $i` for `i` in 0–9 |
 | `runs/gcn`, `runs/graphsage` | static GNNs | 5 | `python -m baselines.static_gnn --processed-dir data/processed_cat --model gcn --n-runs 5` (and `--model graphsage`) |
-| `runs/sens_*` ⚠ | Table 23 variants | 3 | `run_train.py` with one setting changed per variant (see Table 23) |
+| `runs/sens_*` | Table 23 variants | 3 | `run_train.py` with one setting changed per variant (see Table 23) |
 
 Each run writes one row per seed to `<run>/test_metrics_multi_seed.csv`, and
 confusion matrices, ROC/PR curve data and sequence-length bins to
@@ -80,7 +80,7 @@ confusion matrices, ROC/PR curve data and sequence-length bins to
 | 4 | Example interaction stream | — (illustrative) | — | — |
 | 5 | BiTA vs random ranker | `scripts/collect_results.py`; random ranker computed analytically for 100 candidates | `comparison/comparison.csv` (row `BiTA`, columns `test_link_*`) | 10 |
 | 6 | Paired comparison against four alternatives | `scripts/paired_tests.py --a <baseline> --b BiTA=runs/cat_full` for each baseline | `comparison/cat10_vs_cat_tgn_last.csv`, `cat10_vs_cat_tgn_mean.csv`, `cat10_vs_agg_bitransformer.csv`, `cat10_vs_cat_dyrep.csv` | 10 |
-| 7 | Historical-category channel | Warden: `scripts/paired_tests.py` (with vs without channel); NF-UNSW-NB15-v2: `scripts/collect_results.py` on the UNSW runs | `comparison/ablation_category.csv`; `comparison_unsw/comparison.csv` ⚠ | 10 |
+| 7 | Historical-category channel | Warden: `scripts/paired_tests.py` (with vs without channel); NF-UNSW-NB15-v2: `scripts/collect_results.py` on the UNSW runs | `comparison/ablation_category.csv`; `comparison_unsw/comparison.csv`| 10 |
 | 8 | With- vs no-category, paired | `scripts/paired_tests.py --a "no-category=runs/warden-nocat" --b "with-category=runs/cat_full"` | `comparison/ablation_category.csv` | 10 |
 | 9 | Non-temporal baselines | `baselines/classical.py`, `baselines/static_gnn.py`; BiTA row from `runs/cat_full` | per-run `test_metrics_multi_seed.csv` | as in the table's Seeds column |
 | 10 | Aggregation strategies | `scripts/collect_results.py` over the 10-seed runs of Section 3 and EdgeBank | regenerate with the command in Section 6 | 10 (EdgeBank 1) |
@@ -114,13 +114,13 @@ prediction.
 | Figure | Content | Produced by | Seeds |
 |---|---|---|---|
 | 1–4 | Architecture and task illustrations | — (drawn) | — |
-| 5, 6 | Attack intervals and accumulation | computed from the raw Warden files ⚠ | — |
+| 5, 6 | Attack intervals and accumulation | computed from the raw Warden files | — |
 | 7 | Effect size and significance vs number of seeds | `scripts/seed_sensitivity.py` → `comparison/seed_sensitivity.pdf` | 25 |
 | 8, 9 | ROC and precision–recall curves | original-submission pipeline (Section 7 below) | not averaged over seeds |
-| 10 | Inductive confusion matrix | averaged from `<run>/artifacts/confusion_matrix_nntest_run*.csv` of `runs/cat_full` ⚠ | as stated in the caption |
-| 11 | Time-window comparison | `scripts/make_figure_timewindows.py --prefix tw` ⚠ | as stated in the caption |
+| 10 | Inductive confusion matrix | averaged from `<run>/artifacts/confusion_matrix_nntest_run*.csv` of `runs/cat_full`| as stated in the caption |
+| 11 | Time-window comparison | `scripts/make_figure_timewindows.py --prefix tw`| as stated in the caption |
 | 12, 13, 14 | Baseline comparisons, comparison over time | original-submission pipeline (Section 7 below) | not averaged over seeds |
-| 15 | NF-UNSW-NB15-v2 aggregators (supplementary) | ⚠ | — |
+| 15 | NF-UNSW-NB15-v2 aggregators (supplementary) | — | — |
 | 16 | Performance by sequence length | original-submission pipeline (Section 7 below) | not averaged over seeds |
 | 17 | Temporal causality and batch-grouping invariance | `scripts/causality_experiment.py` → `causality.png`, `order_invariance.png` | one checkpoint |
 
